@@ -1,31 +1,30 @@
 import React from "react";
 import styled from "styled-components";
 
-const Paths = ({ player, coords }) => {
-  // console.log(player.name, coords);
-  return (
-    <>
-      {/* <Image
-        src={player.src}
-        alt={`${player.name} 사다리 타고 내려가는 중`}
-        color={player.color}
-        x={coords[0]}
-        y={coords[1]}
-      /> */}
-    </>
-  );
+const Paths = ({ player, userName, drawX, drawY }) => {
+
+    const positionX = drawX - 60;
+    const positionY = drawY*1.4 - 20;
+
+    return (
+      <>
+        <PlayerIcon color={player.color} style={{
+          top : positionY,
+          left: positionX
+        }}>{player.name}</PlayerIcon>
+      </>
+    );
 };
 
 export default React.memo(Paths);
 
-const Image = styled.img`
-  width: 4rem;
+const PlayerIcon = styled.span`
+  width: 12rem;
   height: 4rem;
+  line-height: 3.4rem;
+  text-align: center;
   background-color: white;
-  padding: 0.3rem;
   border: ${({ color }) => `3px solid ${color}`};
-  border-radius: 50%;
+  border-radius: 2rem;
   position: absolute;
-  top: ${({ y }) => `${y}px`};
-  left: ${({ x }) => `${x}px`};
 `;

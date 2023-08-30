@@ -7,6 +7,7 @@ const CounterButtonContainer = ({ direction }) => {
 
   return (
     <CounterButton
+      gameState={state.gameState}
       playerCount={state.playerCount}
       incPlayers={incPlayers}
       decPlayers={decPlayers}

@@ -6,29 +6,29 @@ import {
   faArrowAltCircleRight,
 } from "@fortawesome/free-solid-svg-icons";
 
-const CounterButton = ({ playerCount, direction, incPlayers, decPlayers }) => {
+const CounterButton = ({ playerCount, direction, incPlayers, decPlayers, gameState }) => {
   return (
     <>
       {direction === "left" ? (
         <Button
           aria-label="플레이어 수 감소"
           onClick={decPlayers}
-          disabled={playerCount <= 2}
+          disabled={playerCount <= 2 || gameState == "playing" || gameState == "done"}
         >
           <FontAwesomeIcon
             icon={faArrowAltCircleLeft}
-            color={playerCount < 3 ? "lightgray" : "orange"}
+            color={playerCount < 3 || gameState == "playing" || gameState == "done" ? "lightgray" : "orange"}
           />
         </Button>
       ) : (
         <Button
           aria-label="플레이어 수 증가"
           onClick={incPlayers}
-          disabled={playerCount >= 10}
+          disabled={playerCount >= 10 || gameState == "playing" || gameState == "done"}
         >
           <FontAwesomeIcon
             icon={faArrowAltCircleRight}
-            color={playerCount > 9 ? "lightgray" : "orange"}
+            color={playerCount > 9 || gameState == "playing" || gameState == "done" ? "lightgray" : "orange"}
           />
         </Button>
       )}

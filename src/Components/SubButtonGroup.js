@@ -4,11 +4,10 @@ import RestartButton from "./RestartButton";
 import ResultButton from "./ResultButton";
 import styled from "styled-components";
 
-const SubButtonGroup = ({ gameState, page, goHome, goResult, goGame }) => {
+const SubButtonGroup = ({ gameState, page, goHome, goResult }) => {
   return (
     <Wrapper page={page}>
-      <HomeButton gameState={gameState} page={page} goHome={goHome} />
-      <RestartButton gameState={gameState} page={page} goGame={goGame} />
+      <RestartButton gameState={gameState} page={page} goHome={goHome} />
       <ResultButton gameState={gameState} page={page} goResult={goResult} />
     </Wrapper>
   );

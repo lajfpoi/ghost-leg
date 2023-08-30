@@ -4,7 +4,6 @@ import A11yTitle from "./A11yTitle";
 
 const Case = React.memo(
   ({ idx, value, gameState, inputCase, resultColor, playerCount }) => {
-    // console.log("cases rendering");
     return (
       <>
         <A11yTitle element="h3" text="케이스 입력 필드 리스트" />
@@ -38,7 +37,6 @@ const CaseList = ({
   checkReady,
   inputCase,
 }) => {
-  // console.log("caselist rendering");
   useEffect(() => {
     Object.keys(cases).length && checkReady(cases);
   }, [cases]);
@@ -50,6 +48,7 @@ const CaseList = ({
         for (const player in results) {
           if (results[player] === idx) result = player;
         }
+
         return (
           <Case
             key={idx}
@@ -71,8 +70,8 @@ export default React.memo(CaseList);
 const CaseListWrapper = styled.ul`
   display: flex;
   justify-content: space-around;
-  margin: 0 auto;
-  width: 80%;
+  margin: 3rem auto;
+  width: 90%;
 
   @media ${({ theme }) => theme.mobile} {
     width: 100%;

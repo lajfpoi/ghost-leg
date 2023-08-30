@@ -11,7 +11,7 @@ const Canvas = forwardRef((props, ref) => {
       <Wrapper
         ref={ref}
         top={ladderPos}
-        width={window.innerWidth * 0.8}
+        width={window.innerWidth*0.9}
         height="300"
       />
       {Array.from({ length: playerCount }).map((_, idx) => (

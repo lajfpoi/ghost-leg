@@ -1,12 +1,18 @@
-import React from "react";
-import EnterButtonContainer from "Containers/EnterButtonContainer";
 import CounterContainer from "Containers/CounterContainer";
+import CaseContainer from "Containers/CaseListContainer";
+import LadderContainer from "Containers/LadderContainer";
+import PlayersContainer from "Containers/PlayersContainer";
+import SubButtonGroupContainer from "Containers/SubButtonGroupContainer";
+import React from "react";
 
 const Home = () => {
   return (
     <>
       <CounterContainer />
-      <EnterButtonContainer />
+      <PlayersContainer />
+      <LadderContainer />
+      <CaseContainer />
+      <SubButtonGroupContainer />
     </>
   );
 };

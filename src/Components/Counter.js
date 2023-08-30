@@ -24,14 +24,13 @@ const Players = styled.span`
 `;
 
 const CounterWrapper = styled.div`
-  margin: 20vh auto 0;
+  margin: 5rem auto;
   width: 30rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   @media ${({ theme }) => theme.mobile} {
-    margin: 28vh auto 0;
     width: 20rem;
   }
 `;

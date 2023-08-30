@@ -21,7 +21,6 @@ const Main = ({ page, gameState, children }) => {
 export default React.memo(Main);
 
 const Wrapper = styled.main`
-  width: 100vw;
-  height: 80vh;
+  width: 100%;
   position: relative;
 `;

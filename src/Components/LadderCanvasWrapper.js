@@ -9,13 +9,13 @@ export default React.memo(LadderCanvasWrapper);
 
 const Wrapper = styled.div`
   position: relative;
-  width: 80%;
+  width: 90%;
   height: 42rem;
   margin: 2rem auto;
 
   @media ${({ theme }) => theme.mobile} {
     width: 100%;
-    height: 20rem;
+    height: 50vh;
     margin: 1rem auto;
   }
 `;

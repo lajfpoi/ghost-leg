@@ -1,98 +1,241 @@
-import { resetCase, getRandomLegs, getRandomPlayers } from "Utils";
+import {
+  resetCase, setUserName,
+  addUserList, getUserList,
+  addMapList, inputMapListName, inputMapListOrder, removeMapList,
+  getMapList, addMapListLegs, inputMapListLegs, lockMapList, saveMapList,
+  getRandomLegs, getRandomPlayers } from "Utils";
 
 export const data = [
   {
     id: 1,
-    name: "토끼",
-    src: "https://image.flaticon.com/icons/svg/3069/3069187.svg",
     color: "gray",
+    name: ''
   },
   {
     id: 2,
-    name: "돼지",
-    src: "https://image.flaticon.com/icons/svg/3069/3069273.svg",
     color: "crimson",
+    name: ''
   },
   {
     id: 3,
-    name: "펭귄",
-    src: "https://image.flaticon.com/icons/svg/3069/3069217.svg",
     color: "darkolivegreen",
+    name: ''
   },
   {
     id: 4,
-    name: "카멜레온",
-    src: "https://image.flaticon.com/icons/svg/3069/3069230.svg",
     color: "lightseagreen",
+    name: ''
   },
   {
     id: 5,
-    name: "강아지",
-    src: "https://image.flaticon.com/icons/svg/3069/3069267.svg",
     color: "darkorange",
+    name: ''
   },
   {
     id: 6,
-    name: "기린",
-    src: "https://image.flaticon.com/icons/svg/3069/3069201.svg",
     color: "peru",
+    name: ''
   },
   {
     id: 7,
-    name: "돌고래",
-    src: "https://image.flaticon.com/icons/svg/3069/3069269.svg",
     color: "royalblue",
+    name: ''
   },
   {
     id: 8,
-    name: "말",
-    src: "https://image.flaticon.com/icons/svg/3069/3069284.svg",
     color: "saddlebrown",
+    name: ''
   },
   {
     id: 9,
-    name: "여우",
-    src: "https://image.flaticon.com/icons/svg/3069/3069166.svg",
     color: "salmon",
+    name: ''
   },
   {
     id: 10,
-    name: "코끼리",
-    src: "https://image.flaticon.com/icons/svg/3069/3069224.svg",
     color: "rebeccapurple",
+    name: ''
   },
 ];
 
 export const initState = {
   page: "home",
   playerCount: 2,
-  players: [],
-  cases: {},
+  players: getRandomPlayers(2, data),
+  cases: resetCase(2),
   results: {},
   gameState: "notReady",
-  legs: [],
+  legs: getRandomLegs(2),
+  userListCount: 2,
+  userList: getUserList(2),
+  userName: {},
+  mapListCount: 0,
+  mapList: getMapList(),
+  mapOrderFix: false,
+  mapLoop: 0
 };
 
 export const reducer = (state, action) => {
-  const bla = () => console.log("from reducer", state);
+  let playerCount = 0
+  let userListCount = 0
   switch (action.type) {
     case "INC_PLAYERS":
+      playerCount = state.playerCount + 1;
+      mapLoop = 0;
+
       return {
         ...state,
-        playerCount: state.playerCount + 1,
+        playerCount,
+        gameState: "notReady",
+        players: getRandomPlayers(playerCount, data, state.userName),
+        legs: getRandomLegs(playerCount, state.mapOrderFix, state.mapLoop),
+        mapLoop: mapLoop
       };
     case "DEC_PLAYERS":
+      playerCount = state.playerCount - 1
+      mapLoop = 0;
+
       return {
         ...state,
-        playerCount: state.playerCount - 1,
+        playerCount,
+        gameState: "notReady",
+        players: getRandomPlayers(playerCount, data, state.userName),
+        legs: getRandomLegs(playerCount, state.mapOrderFix, state.mapLoop),
+        mapLoop: mapLoop
       };
+    case "SET_PlayerName":
+      return {
+        ...state,
+        userName: setUserName(state.userName, action.idx, action.value, state.players)
+      };
+    
+    case "ADD_List":
+      let localData = JSON.parse(localStorage.getItem("userList"));
+      let dataLength = Object.keys(localData).length;
+
+      if (dataLength < 2) {userListCount = 3;}
+      else {userListCount = dataLength + 1;}
+
+      for (let i = 0; i < userListCount; i++) {
+        if (state.userList[i] === undefined) state.userList[i] = "";
+      }
+
+      localStorage.setItem('userList', JSON.stringify(state.userList));
+
+      return {
+        ...state,
+        userListCount,
+        userList: addUserList(userListCount),
+      };
+    case "INPUT_List":
+      return {
+        ...state,
+        userList: { ...state.userList, [action.idx]: action.value },
+      };
+    case "SAVE_List":
+      let arrayUserList = [];
+
+      for (let i = 0; i < Object.values(state.userList).length; i++) {
+        arrayUserList[i] = state.userList[i];
+      }
+
+      localStorage.setItem('userList', JSON.stringify(arrayUserList));
+
+      return {
+        ...state
+      }
+    
+    case "ADD_Map":
+      let localMapData = JSON.parse(localStorage.getItem("mapList"));
+      let dataMapLength = 0;
+
+      if (localMapData === null) {dataMapLength = 0;}
+      else {dataMapLength = Object.keys(localMapData).length;}
+
+      let mapListCount = dataMapLength + 1;
+      
+
+      for (let i = 0; i < mapListCount; i++) {
+        if (state.mapList[i] === undefined) state.mapList[i] = {
+          id: i,
+          name:"",
+          legs:{},
+          mapLock: false,
+          mapOrder: 0
+        };
+      }
+
+      localStorage.setItem('mapList', JSON.stringify(state.mapList));
+
+      return {
+        ...state,
+        mapListCount,
+        mapList: addMapList(mapListCount),
+      };
+    case "SAVE_Map":
+
+      return {
+        ...state,
+        mapList: saveMapList(state.mapList, state.mapOrderFix),
+        legs: getRandomLegs(state.playerCount, state.mapOrderFix, state.mapLoop),
+      };
+
+    case "REMOVE_Map":
+      const mapListCount1 = state.mapListCount - 1;
+
+      return {
+        ...state,
+        mapListCount: mapListCount1,
+        mapList: removeMapList(state.mapList, action.idx),
+      };
+
+    case "Lock_Toggle":
+      return {
+        ...state,
+        mapList: lockMapList(state.mapList, action.idx)
+      };
+
+    case "INPUT_MapName":
+      return {
+        ...state,
+        mapList: inputMapListName(state.mapList, action.idx, action.value),
+      };
+
+    case "INPUT_MapOrder":
+      return {
+        ...state,
+        mapList: inputMapListOrder(state.mapList, action.idx, action.value),
+      };
+    
+    case "ADD_MapLegs":
+      return {
+        ...state,
+        mapList: addMapListLegs(state.mapList, action.idx),
+      };
+    case "INPUT_MapLegs":
+      return {
+        ...state,
+        mapList: inputMapListLegs(state.mapList, action.idx, action.idxx, action.value),
+      };
+    
+    case "Fix_Random":
+
+      var mapLoop = 0;
+      var mapOrderFix = !state.mapOrderFix;
+
+      return {
+        ...state,
+        mapOrderFix: mapOrderFix,
+        legs: getRandomLegs(state.playerCount, mapOrderFix, mapLoop),
+        mapLoop: mapLoop
+      }
+
     case "ENTER_GAME":
       return {
         ...state,
-        page: "game",
-        players: getRandomPlayers(state.playerCount, data),
+        players: getRandomPlayers(state.playerCount, data, state.userName),
         cases: resetCase(state.playerCount),
-        legs: getRandomLegs(state.playerCount),
+        legs: getRandomLegs(state.playerCount, state.mapOrderFix, state.mapLoop),
       };
     case "START_GAME":
       return {
@@ -110,10 +253,17 @@ export const reducer = (state, action) => {
         gameState: action.isReady ? "ready" : "notReady",
       };
     case "GO_HOME":
+
+      var mapLoop = state.mapLoop + 1;
+
       return {
         ...state,
         page: "home",
         gameState: "notReady",
+        results: {},
+        players: getRandomPlayers(state.playerCount, data, state.userName),
+        legs: getRandomLegs(state.playerCount, state.mapOrderFix, mapLoop),
+        mapLoop: mapLoop
       };
     case "GO_RESULT":
       return {
@@ -124,12 +274,12 @@ export const reducer = (state, action) => {
     case "GO_GAME":
       return {
         ...state,
-        page: "game",
+        page: "home",
         gameState: "notReady",
         results: {},
-        players: getRandomPlayers(state.playerCount, data),
+        players: getRandomPlayers(playerCount, data, state.userName),
         cases: resetCase(state.playerCount),
-        legs: getRandomLegs(state.playerCount),
+        legs: getRandomLegs(state.playerCount, state.mapOrderFix, state.mapLoop),
       };
     case "UPDATE_RESULT":
       return {

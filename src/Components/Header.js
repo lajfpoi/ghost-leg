@@ -1,18 +1,24 @@
 import React from "react";
 import styled from "styled-components";
+import UserListContainer from "Containers/UserListContainer";
+import MapListContainer from "Containers/MapListContainer";
 
 const Header = () => {
+
   return (
     <HeaderWrapper>
       <HeaderTitle aria-label="랜덤 사다리 타기 홈">
         <HomeLink
           aria-label="홈으로 가기"
           tabIndex="1"
-          href="https://kimfriendship.github.io/ghost-leg/"
+          href="/"
         >
           랜덤 사다리 타기
         </HomeLink>
       </HeaderTitle>
+
+      <MapListContainer></MapListContainer>
+      <UserListContainer></UserListContainer>
     </HeaderWrapper>
   );
 };
@@ -21,8 +27,9 @@ export default Header;
 
 const HeaderWrapper = styled.div`
   height: 8rem;
-  width: 100vw;
+  width: 100%;
   background-color: #577dc4;
+  position: relative;
 
   @media ${({ theme }) => theme.mobile} {
     height: 6rem;

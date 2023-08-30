@@ -3,13 +3,14 @@ import styled from "styled-components";
 import A11yTitle from "./A11yTitle";
 
 const PairGroup = ({ results, players, cases }) => {
+
   return (
     <>
       <A11yTitle element="h3" text="플레이어별 결과 리스트" />
       <Wrapper>
         {players.map((player, idx) => (
           <Pair key={idx}>
-            <Image src={player.src} alt={`${player.name} 플레이어`} />
+            <p>{player.name}</p>
             <Case color={player.color}>{cases[results[idx]]}</Case>
           </Pair>
         ))}
@@ -43,19 +44,6 @@ const Pair = styled.li`
 
   @media ${({ theme }) => theme.mobile} {
     padding: 1rem;
-  }
-`;
-
-const Image = styled.img`
-  width: 30%;
-  max-width: 8rem;
-  min-width: 4.5rem;
-  min-height: 4.5rem;
-  object-fit: cover;
-
-  @media ${({ theme }) => theme.mobile} {
-    max-width: 6rem;
-    width: 30%;
   }
 `;
 

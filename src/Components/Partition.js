@@ -60,7 +60,7 @@ const SettingMessage = styled.h3`
 `;
 
 const Shade = styled.div`
-  width: 80%;
+  width: 90%;
   height: 42rem;
   margin: 2rem auto;
   display: flex;
@@ -70,7 +70,7 @@ const Shade = styled.div`
 
   @media ${({ theme }) => theme.mobile} {
     width: 100%;
-    height: 12rem;
+    height: 50vh;
     margin: 1rem auto;
   }
 `;

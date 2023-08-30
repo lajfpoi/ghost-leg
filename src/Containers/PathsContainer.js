@@ -5,7 +5,7 @@ import { Context } from "Context";
 
 const PathsContainer = ({ idx, canvasRef }) => {
   const { state, updateResult } = useContext(Context);
-  const { legs, players, playerCount } = state;
+  const { legs, players, playerCount, userName } = state;
   const [canvas, setCanvas] = useState(null);
   const ctx = canvas && canvas.getContext("2d");
 
@@ -26,7 +26,9 @@ const PathsContainer = ({ idx, canvasRef }) => {
   let posX = idx;
   let posY = 0;
   const move = 1;
-
+  
+  const [drawX, setDrawX] = useState("");
+  const [drawY, setDrawY] = useState("");
   // console.log(players[idx].name, "최초 지점", coordX);
 
   // const getMoveSize = () => {
@@ -54,6 +56,9 @@ const PathsContainer = ({ idx, canvasRef }) => {
     ctx.fillStyle = players[idx].color;
     ctx.fill();
     ctx.closePath();
+
+    setDrawX(X);
+    setDrawY(Y);
   };
 
   const crossLeg = (direction) => {
@@ -104,7 +109,7 @@ const PathsContainer = ({ idx, canvasRef }) => {
     return () => clearInterval(draw);
   }, [canvasRef, canvas]);
 
-  return <Paths player={players[idx]} coords={[coordX, coordY]} />;
+  return <Paths player={players[idx]} drawX={drawX} drawY={drawY} userName={userName} />;
 };
 
 export default PathsContainer;

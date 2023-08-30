@@ -3,7 +3,7 @@ import SubButton from "Components/SubButton";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 const ResultButton = ({ gameState, page, goResult }) => {
-  if (page === "game" && gameState === "done")
+  if (page === "home" && gameState === "done")
     return (
       <SubButton
         label="게임 전체 결과 보기"
